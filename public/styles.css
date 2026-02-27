@@ -1,0 +1,6 @@
+/* Custom overrides - most styling handled by Tailwind */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+}
