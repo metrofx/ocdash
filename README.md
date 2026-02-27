@@ -21,7 +21,7 @@ A mobile-friendly, read-only monitoring dashboard for OpenClaw AI agents. Built 
 ## Installation
 
 ```bash
-cd ~/openclaw-dashboard
+cd openclaw-dashboard
 npm install
 ```
 
@@ -72,8 +72,8 @@ After=network.target
 
 [Service]
 Type=simple
-WorkingDirectory=/home/eko/openclaw-dashboard
-ExecStart=/usr/bin/node /home/eko/openclaw-dashboard/server.js
+WorkingDirectory=%h/openclaw-dashboard
+ExecStart=%h/openclaw-dashboard/node_modules/.bin/node %h/openclaw-dashboard/server.js
 Restart=on-failure
 Environment=PORT=3000
 
