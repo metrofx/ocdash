@@ -4,19 +4,23 @@ A mobile-friendly, read-only monitoring dashboard for OpenClaw AI agents. Built 
 
 ## Features
 
-- **Real-time System Status**: OpenClaw version, gateway status, system uptime, OS info
-- **Channel Monitoring**: Telegram, WhatsApp, and other channel connection status
-- **Session Tracking**: Filtered view of today's sessions with token counts
-- **Agent Management**: Collapsible list of configured agents
-- **Cron Jobs**: View scheduled jobs with status and schedules
-- **Usage Analytics**: 48-hour token and model usage graphs with simplified Y-axis (K/M)
+- **Real-time System Status**: OpenClaw version, gateway status, system uptime, OS info, active sessions/total, total agents
+- **Channel Monitoring**: Telegram, WhatsApp, and other channel connection status with real-time indicators
+- **Session Tracking**: Filtered view of today's sessions with token counts (truncated IDs, no horizontal scroll)
+- **Agent Management**: Collapsible list of configured agents (default collapsed to reduce clutter)
+- **Cron Jobs**: View scheduled jobs with status badges, next/last run times
+- **Usage Analytics**: 48-hour token and model usage graphs with simplified Y-axis (K/M format)
+- **Mobile-First UI**: Card-based layout, no horizontal scrolling, Tailwind CSS styling
+- **Dark Mode Support**: Automatic dark mode based on system preference
+- **Manual Refresh**: Single refresh button fetches all data in parallel
+- **Scroll-to-Top**: Floating button appears when scrolling down
 
 ## Screenshots
 
-- System status panel
+- System status panel with gateway and channel indicators
 - Card-based UI for agents, sessions, and cron jobs
-- Mobile-optimized layout with Tailwind CSS
-- Dark mode support
+- Mobile-optimized vertical layout
+- Simplified chart Y-axis (200K, 1.5M, etc.)
 
 ## Installation
 
@@ -41,18 +45,19 @@ The dashboard will be available at http://127.0.0.1:3000
 | GET    | `/api/cron`             | Cron jobs list                                      |
 | GET    | `/api/sessions`         | Sessions list                                       |
 | GET    | `/api/agents`           | Agents list                                          |
-| GET    | `/api/usage/model`      | Model usage (last 48h, hourly)                       |
+| GET    | `/api/usage/model`      | Model usage (last 48h, hourly, combined input+output)|
 | GET    | `/api/usage/token`      | Token usage (last 48h, hourly)                       |
 | GET    | `/health`               | Gateway health check                                 |
 
 ## Data Sources
 
 The dashboard fetches all data via the OpenClaw CLI:
-- `openclaw gateway status --json`
-- `openclaw channels status --json`
-- `openclaw sessions --json`
-- `openclaw agents list --json`
-- `openclaw cron list --all --json`
+- `openclaw --version` (version detection)
+- `openclaw gateway status --json` (gateway status)
+- `openclaw channels status --json` (channel connections)
+- `openclaw sessions --json` (sessions, filtered to today)
+- `openclaw agents list --json` (agents list)
+- `openclaw cron list --all --json` (cron jobs)
 
 ## Deployment Options
 
@@ -90,12 +95,19 @@ systemctl --user enable --now openclaw-dashboard
 
 Use nginx or Traefik with basic auth to expose the dashboard securely.
 
+### Expose via ngrok (for testing)
+
+```bash
+ngrok http 3000
+```
+
 ## Security
 
 - **Read-only**: No modification capabilities
 - **Local-only**: Binds to 127.0.0.1 by default
 - **No secrets stored**: Uses existing OpenClaw CLI authentication
 - **Token filtering**: Sessions filter to "today" only for privacy
+- **Channel authentication**: Uses OpenClaw's configured tokens via CLI
 
 ## Requirements
 
@@ -105,10 +117,25 @@ Use nginx or Traefik with basic auth to expose the dashboard securely.
 
 ## Tech Stack
 
-- Backend: Node.js, Express
-- Frontend: HTML5, Tailwind CSS, Vanilla JS, Chart.js
-- Data: OpenClaw CLI (via child_process)
-- Caching: node-cache (15s TTL)
+- **Backend**: Node.js, Express, node-cache
+- **Frontend**: HTML5, Tailwind CSS (CDN), Vanilla JS, Chart.js 4.x (CDN)
+- **Data**: OpenClaw CLI (via child_process)
+- **Caching**: node-cache (15s TTL)
+
+## Project Structure
+
+```
+openclaw-dashboard/
+├── server.js              # Express backend with API endpoints
+├── package.json           # Dependencies
+├── README.md              # This file
+├── SPEC.md                # Technical specification
+├── .gitignore             # Git ignore rules
+└── public/
+    ├── index.html         # Single-page HTML
+    ├── app.js            # Frontend JavaScript
+    └── styles.css        # Custom CSS overrides
+```
 
 ## License
 
