@@ -129,6 +129,30 @@
     </footer>
   </div>
 
+  <!-- Modal for Cron Details -->
+  <div id="cron-modal"
+    class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300 backdrop-blur-sm">
+    <div
+      class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-lg max-h-[80vh] overflow-hidden flex flex-col transform transition-transform scale-95 duration-300"
+      id="cron-modal-panel">
+      <div class="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700">
+        <h3 id="cron-modal-title" class="text-lg font-bold text-gray-900 dark:text-white truncate pr-4">Cron Details
+        </h3>
+        <button onclick="closeCronModal()"
+          class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="p-4 overflow-y-auto flex-1">
+        <p class="text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">Payload / Prompt</p>
+        <pre id="cron-modal-content"
+          class="text-xs text-gray-800 dark:text-gray-200 bg-gray-100 dark:bg-gray-900 p-3 rounded-lg overflow-x-auto whitespace-pre-wrap font-mono shadow-inner"></pre>
+      </div>
+    </div>
+  </div>
+
   <!-- Scroll to top button -->
   <button id="scroll-to-top"
     class="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition-all opacity-0 pointer-events-none">

@@ -8,6 +8,7 @@ const API = {
 };
 
 let charts = {};
+let cronJobsData = [];
 
 function toggleSection(section) {
   const cards = document.getElementById(`${section}-cards`);
@@ -170,16 +171,18 @@ function renderCronCards(data) {
   const container = document.getElementById('cron-cards');
   const countEl = document.getElementById('cron-count');
 
-  countEl.textContent = `(${(data.jobs || []).length})`;
+  cronJobsData = data.jobs || [];
 
-  container.innerHTML = (data.jobs || []).map(job => {
+  countEl.textContent = `(${cronJobsData.length})`;
+
+  container.innerHTML = cronJobsData.map((job, idx) => {
     const next = job.state?.nextRunAtMs ? new Date(Number(job.state.nextRunAtMs)).toLocaleString() : '-';
     const last = job.state?.lastRunAtMs ? new Date(Number(job.state.lastRunAtMs)).toLocaleString() : '-';
     const statusClass = job.enabled ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200';
     const statusText = job.enabled ? 'enabled' : 'disabled';
 
     return `
-      <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 cursor-pointer hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-750 transition-all border border-transparent hover:border-gray-200 dark:hover:border-gray-600" onclick="showCronModal(${idx})">
         <div class="flex justify-between items-start">
           <h3 class="font-semibold text-gray-900 dark:text-white">${job.name || '-'}</h3>
           <span class="px-2 py-1 text-xs rounded-full ${statusClass}">${statusText}</span>
@@ -198,6 +201,56 @@ function formatHourLabel(iso) {
   const d = new Date(iso);
   return `${d.getMonth() + 1}/${d.getDate()} ${d.getHours()}:00`;
 }
+
+function showCronModal(index) {
+  const job = cronJobsData[index];
+  if (!job) return;
+
+  document.getElementById('cron-modal-title').textContent = job.name || 'Cron Details';
+
+  // Extract payload or prompt
+  let dataContent = job.payload || job.action || job;
+  // Special check if action has a prompt string
+  if (job.action && job.action.type === 'prompt' && job.action.prompt) {
+    dataContent = job.action.prompt;
+  }
+
+  const contentEl = document.getElementById('cron-modal-content');
+  if (typeof dataContent === 'object') {
+    contentEl.textContent = JSON.stringify(dataContent, null, 2);
+  } else {
+    contentEl.textContent = dataContent;
+  }
+
+  const modal = document.getElementById('cron-modal');
+  const panel = document.getElementById('cron-modal-panel');
+
+  modal.classList.remove('opacity-0', 'pointer-events-none');
+  panel.classList.remove('scale-95');
+  panel.classList.add('scale-100');
+
+  // Prevent body scroll
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCronModal() {
+  const modal = document.getElementById('cron-modal');
+  const panel = document.getElementById('cron-modal-panel');
+
+  modal.classList.add('opacity-0', 'pointer-events-none');
+  panel.classList.remove('scale-100');
+  panel.classList.add('scale-95');
+
+  // Restore body scroll
+  document.body.style.overflow = '';
+}
+
+// Close modal when clicking outside
+document.getElementById('cron-modal').addEventListener('click', function (e) {
+  if (e.target === this) {
+    closeCronModal();
+  }
+});
 
 function renderTokenUsageChart(data) {
   const ctx = document.getElementById('token-chart').getContext('2d');
