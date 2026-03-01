@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen pb-20">
   <div class="max-w-2xl mx-auto px-4 py-6">
     <header class="mb-6">
@@ -16,7 +18,8 @@
 
     <div class="flex justify-between items-center mb-4">
       <span id="status-msg" class="text-sm text-gray-600 dark:text-gray-400"></span>
-      <button id="refresh-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+      <button id="refresh-btn"
+        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
         Refresh
       </button>
     </div>
@@ -50,7 +53,7 @@
           <p id="total-agents" class="font-medium text-gray-900 dark:text-white">-</p>
         </div>
       </div>
-      
+
       <!-- Channels Status -->
       <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
         <p class="text-gray-500 dark:text-gray-400 text-sm mb-2">Channels</p>
@@ -66,7 +69,8 @@
         <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">
           Agents <span id="agents-count" class="text-sm text-gray-500 dark:text-gray-400"></span>
         </h2>
-        <span id="agents-toggle" class="text-gray-500 dark:text-gray-400 transform transition-transform rotate-[-90deg]">▼</span>
+        <span id="agents-toggle"
+          class="text-gray-500 dark:text-gray-400 transform transition-transform rotate-[-90deg]">▼</span>
       </div>
       <div id="agents-cards" class="grid gap-3 hidden">
         <!-- Cards will be inserted here -->
@@ -114,10 +118,20 @@
         </div>
       </div>
     </section>
+
+    <!-- Footer Links -->
+    <footer class="mt-4 pb-2 text-center text-xs text-gray-500 dark:text-gray-400">
+      <a href="https://github.com/metrofx/ocdash" target="_blank" rel="noopener noreferrer"
+        class="hover:text-gray-700 dark:hover:text-gray-300 hover:underline transition-colors mt-2">GitHub</a>
+      <span class="mx-1">|</span>
+      <a href="https://saweria.co/xfortem" target="_blank" rel="noopener noreferrer"
+        class="hover:text-gray-700 dark:hover:text-gray-300 hover:underline transition-colors mt-2">Donate</a>
+    </footer>
   </div>
 
   <!-- Scroll to top button -->
-  <button id="scroll-to-top" class="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition-all opacity-0 pointer-events-none">
+  <button id="scroll-to-top"
+    class="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition-all opacity-0 pointer-events-none">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
     </svg>
@@ -126,4 +140,5 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="app.js"></script>
 </body>
+
 </html>
