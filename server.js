@@ -7,7 +7,7 @@ const os = require('os');
 
 const app = express();
 const cache = new NodeCache({ stdTTL: 15, checkperiod: 5 });
-const OPENCLAW_CLI = 'openclaw';
+const OPENCLAW_CLI = process.env.OPENCLAW_CLI || 'openclaw';
 
 app.get('/health', async (req, res) => {
   try {
